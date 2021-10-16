@@ -1,3 +1,4 @@
+### Java ###
 # Compiled class file
 *.class
 
@@ -21,6 +22,7 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
 
 ### Eclipse ###
 .metadata
@@ -80,6 +82,9 @@ local.properties
 .scala_dependencies
 .worksheet
 
+# DB and Other Meta Infos
+META-INF/*
+
 # Uncomment this line if you wish to ignore the project description file.
 # Typically, this file would be tracked if it contains build/dependency configurations:
 #.project
@@ -87,6 +92,7 @@ local.properties
 ### Eclipse Patch ###
 # Spring Boot Tooling
 .sts4-cache/
+
 
 ### macOS ###
 # General
@@ -96,7 +102,6 @@ local.properties
 
 # Icon must end with two \r
 Icon
-
 
 # Thumbnails
 ._*
