@@ -16,7 +16,7 @@ public class FavoriteServiceImpl implements FavoriteService {
 		favoriteDao = FavoriteDAOImpl.getFavoriteDao();
 	}
 	
-	public static FavoriteService getUserService() {
+	public static FavoriteService getFavoriteService() {
 		return favoriteService;
 	}
 
@@ -40,6 +40,17 @@ public class FavoriteServiceImpl implements FavoriteService {
 	@Override
 	public boolean deleteFavorite(int userNo, String favoriteGugun, String favoriteDong) throws SQLException {
 		return favoriteDao.deleteFavorite(userNo, favoriteGugun, favoriteDong);
+	}
+	
+	@Override
+	public boolean resetFavorites(int userNo) throws SQLException {
+		int favoriteCount = favoriteDao.selectFavoriteCount(userNo);
+		// 관심지역 개수 조회 실패
+		if (favoriteCount==-1) return false;
+		// 관심지역 개수 0개는 바로 true 반환
+		else if (favoriteCount==0) return true;
+		// 관심지역 개수 1개 이상이면 모두 삭제
+		else return favoriteDao.deleteAllFavorites(userNo);
 	}
 
 }

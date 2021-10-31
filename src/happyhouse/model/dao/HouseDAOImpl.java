@@ -26,7 +26,7 @@ public class HouseDAOImpl implements HouseDAO {
 		List<House> list = new ArrayList<>();
 		PreparedStatement pstmt = null;
 		try (Connection conn = dbUtil.getConnection();) {
-			String sql = "select city, gugun, dong, aptName, dealAmount, area, type, lat, lng \n";
+			String sql = "select distinct city, gugun, dong, aptName, dealAmount, area, type, lat, lng \n";
 			sql += "from searchDeal\n";
 			sql += "where city = ? and gugun = ? and dong = ?";
 			pstmt = conn.prepareStatement(sql);

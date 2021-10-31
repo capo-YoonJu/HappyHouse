@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 import happyhouse.model.dto.Favorite;
 import happyhouse.util.DBUtil;
@@ -37,7 +36,6 @@ public class FavoriteDAOImpl implements FavoriteDAO {
 		
 		try {
 			conn = dbUtil.getConnection();
-			System.out.println(conn.getClass().getName());
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, userNo);
 			
@@ -63,7 +61,6 @@ public class FavoriteDAOImpl implements FavoriteDAO {
 		
 		try {
 			conn = dbUtil.getConnection();
-			System.out.println(conn.getClass().getName());
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, userNo);
 			pstmt.setString(2, favoriteGugun);
@@ -89,7 +86,6 @@ public class FavoriteDAOImpl implements FavoriteDAO {
 		
 		try {
 			conn = dbUtil.getConnection();
-			System.out.println(conn.getClass().getName());
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, favoriteCity);
 			pstmt.setString(2, favoriteGugun);
@@ -103,6 +99,29 @@ public class FavoriteDAOImpl implements FavoriteDAO {
 			dbUtil.close(rs, pstmt, conn);
 		}
 		return null;
+	}
+	
+	@Override
+	public int selectFavoriteCount(int userNo) throws SQLException {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = "SELECT COUNT(*) ";
+		sql += "FROM favorite WHERE user_no = ? ";
+		
+		try {
+			conn = dbUtil.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userNo);
+			
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				return rs.getInt(1);
+			}
+		} finally {
+			dbUtil.close(rs, pstmt, conn);
+		}
+		return -1;
 	}
 
 	@Override
@@ -137,6 +156,23 @@ public class FavoriteDAOImpl implements FavoriteDAO {
 			pstmt.setInt(1, userNo);
 			pstmt.setString(2, favoriteGugun);
 			pstmt.setString(3, favoriteDong);
+			
+			return pstmt.executeUpdate()>0;
+		} finally {
+			dbUtil.close(pstmt, conn);
+		}
+	}
+
+	@Override
+	public boolean deleteAllFavorites(int userNo) throws SQLException {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		String sql = "DELETE FROM favorite WHERE user_no = ? ";
+		
+		try {
+			conn = dbUtil.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userNo);
 			
 			return pstmt.executeUpdate()>0;
 		} finally {

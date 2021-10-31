@@ -1,6 +1,6 @@
 package happyhouse.model.dto;
-// DTO : Data Transfer Object
-// VO : Value Object
+
+import java.util.List;
 
 public class User {
 
@@ -10,6 +10,7 @@ public class User {
 	private String userName;
 	private String userAddress;
 	private String userTel;
+	private List<Favorite> userFavList;
 	
 	public User(int userNo, String userId) {
 		super();
@@ -25,9 +26,9 @@ public class User {
 		this.userAddress = userAddress;
 		this.userTel = userTel;
 	}
-	
-	public User(int userNo, String userId, String userPassword, String userName, String userAddress,
-			String userTel) {
+
+	public User(int userNo, String userId, String userPassword, String userName, String userAddress, String userTel,
+			List<Favorite> userFavList) {
 		super();
 		this.userNo = userNo;
 		this.userId = userId;
@@ -35,6 +36,7 @@ public class User {
 		this.userName = userName;
 		this.userAddress = userAddress;
 		this.userTel = userTel;
+		this.userFavList = userFavList;
 	}
 
 	public int getUserno() {
@@ -85,10 +87,19 @@ public class User {
 		this.userTel = userTel;
 	}
 
+	public List<Favorite> getUserFavList() {
+		return userFavList;
+	}
+
+	public void setUserFavList(List<Favorite> userFavList) {
+		this.userFavList = userFavList;
+	}
+
 	@Override
 	public String toString() {
-		return userId + "\t\t" + userPassword + "\t\t" + userName
-				+ "\t" + userTel + "\t\t" + userAddress;
+		return "User [userNo=" + userNo + ", userId=" + userId + ", userPassword=" + userPassword + ", userName="
+				+ userName + ", userAddress=" + userAddress + ", userTel=" + userTel + ", userFavList=" + userFavList
+				+ "]";
 	}
 
 }

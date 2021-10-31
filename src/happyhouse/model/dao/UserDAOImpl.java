@@ -1,8 +1,6 @@
 package happyhouse.model.dao;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
 import happyhouse.model.dto.*;
 import happyhouse.util.DBUtil;
@@ -116,11 +114,11 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override
-	public boolean updateUser(String userId, User user) throws SQLException {
+	public boolean updateUser(int userNo, User user) throws SQLException {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		String sql = "UPDATE user SET id = ?, password = ?, name = ?, addres = ?, tel = ? ";
-		sql += "WHERE id = ?";
+		sql += "WHERE no = ?";
 		
 		try {
 			conn = dbUtil.getConnection();
@@ -130,8 +128,8 @@ public class UserDAOImpl implements UserDAO {
 			pstmt.setString(3, user.getUserName());
 			pstmt.setString(4, user.getUserAddress());
 			pstmt.setString(5, user.getUserTel());
-			pstmt.setString(6, userId);
-			System.out.println(pstmt);
+			pstmt.setInt(6, userNo);
+			
 			return pstmt.executeUpdate()>0;
 		} finally {
 			dbUtil.close(pstmt, conn);

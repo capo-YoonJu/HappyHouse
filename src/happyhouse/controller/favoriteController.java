@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import happyhouse.model.dao.UserDAO;
 import happyhouse.model.dao.UserDAOImpl;
+import happyhouse.model.dto.DataInfo;
 import happyhouse.model.dto.Favorite;
 import happyhouse.model.dto.PageInfo;
 import happyhouse.model.dto.User;
@@ -26,7 +27,7 @@ import happyhouse.model.service.UserServiceImpl;
 
 public class favoriteController implements Controller {
 
-	private FavoriteService favoriteService = FavoriteServiceImpl.getUserService();
+	private FavoriteService favoriteService = FavoriteServiceImpl.getFavoriteService();
 	
 	@Override
 	public Object process(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -43,7 +44,7 @@ public class favoriteController implements Controller {
 		return null;
 	}
 	
-	protected PageInfo info(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public PageInfo info(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		int userNo = Integer.parseInt(request.getParameter("userNo"));
 		ArrayList<Favorite> favoriteList = favoriteService.searchFavorite(userNo);
 		
@@ -58,7 +59,7 @@ public class favoriteController implements Controller {
 		}
 	}
 
-	protected PageInfo register(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public PageInfo register(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		request.setCharacterEncoding("utf-8");
 		int userNo = Integer.parseInt(request.getParameter("userNo"));
 		String favoriteCity = request.getParameter("favoriteCity");
@@ -77,21 +78,26 @@ public class favoriteController implements Controller {
 		}
 	}
 
-	protected PageInfo delete(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		int userNo = Integer.parseInt(request.getParameter("userNo"));
-		String favoriteGugun = request.getParameter("favoriteGugun");
-		String favoriteDong = request.getParameter("favoriteDong");
+	public DataInfo delete(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		HttpSession session = request.getSession();
+		Object user = session.getAttribute("userSession");
+		int userNo = -1;
 		
-		boolean flag = favoriteService.deleteFavorite(userNo, favoriteGugun, favoriteDong);
-		
-		if (flag) {
+		if (user instanceof User) {
+			userNo = ((User) user).getUserno();
+			
+			String favoriteGugun = request.getParameter("favoriteGugun");
+			String favoriteDong = request.getParameter("favoriteDong");
+			
+			boolean flag = favoriteService.deleteFavorite(userNo, favoriteGugun, favoriteDong);
+			
 			// 관심지역 삭제 성공
-			return info(request, response);
-		} else {
-			// 관심지역 삭제 실패
-			request.setAttribute("errorMessage", "관심지역 삭제에 실패했습니다.");
-			return new PageInfo("/favorite.jsp", true);
-		}
+			if (flag) {
+				return new DataInfo("application/json;charset=utf-8", "success");
+			}
+		} 
+		// 관심지역 삭제 실패
+		return new DataInfo("application/json;charset=utf-8", "fail");
 	}
 	
 }

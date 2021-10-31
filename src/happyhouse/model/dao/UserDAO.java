@@ -1,7 +1,6 @@
 package happyhouse.model.dao;
 
 import java.sql.SQLException;
-import java.util.*;
 
 import happyhouse.model.dto.*;
 
@@ -15,7 +14,7 @@ public interface UserDAO {
 	
 	User selectUserInfo(String userId) throws SQLException;
 	
-	boolean updateUser(String userId, User user) throws SQLException;
+	boolean updateUser(int userNo, User user) throws SQLException;
 	
 	boolean deleteUser(String userId) throws SQLException;
 }

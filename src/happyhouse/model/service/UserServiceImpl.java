@@ -1,7 +1,6 @@
 package happyhouse.model.service;
 
 import java.sql.SQLException;
-import java.util.List;
 
 import happyhouse.model.dao.*;
 import happyhouse.model.dto.*;
@@ -18,6 +17,12 @@ public class UserServiceImpl implements UserService {
 	
 	public static UserService getUserService() {
 		return userService;
+	}
+
+	@Override
+	public int idCheck(String checkId) throws SQLException {
+		if (userDao.selectUserId(checkId) != null) return 1;
+		else return 0;
 	}
 
 	@Override
@@ -40,14 +45,20 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public boolean updateUser(String userId, User user) throws SQLException {
-		return userDao.updateUser(userId, user);
+	public boolean updateUser(int userNo, User user) throws SQLException {
+		return userDao.updateUser(userNo, user);
 
 	}
 
 	@Override
 	public boolean deleteUser(String userId) throws SQLException {
-		return userDao.deleteUser(userId);
+		if (userDao.deleteUser(userId)) {
+			System.out.println("service true");
+			return true;
+		} else {
+			System.out.println("service false");
+			return false;
+		}
 
 	}
 

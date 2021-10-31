@@ -2,7 +2,6 @@ package happyhouse.model.dao;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 import happyhouse.model.dto.Favorite;
 
@@ -14,8 +13,12 @@ public interface FavoriteDAO {
 	
 	String selectDongcode(String favoriteCity, String favoriteGugun, String favoriteDong) throws SQLException;
 	
+	int selectFavoriteCount(int userNo) throws SQLException;
+	
 	boolean insertFavorite(int userNo, String dongcode, String favoriteGugun, String favoriteDong) throws SQLException;
 	
 	boolean deleteFavorite(int userNo, String favoriteGugun, String favoriteDong) throws SQLException;
+	
+	boolean deleteAllFavorites(int userNo) throws SQLException;
 	
 }
