@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.happyhouse.model.dao.HouseDao">
+	<select id="getSidoList" resultType="HouseDto">
+		select left(sidoCode,2) sidoCode, sidoName
+		from sidocode
+		order by sidoCode
+	</select>
+	
+	<select id="getGugunList" parameterType="string" resultType="HouseDto">
+		select left(gugunCode,5) gugunCode, gugunName
+		from guguncode
+		where left(gugunCode,2) = #{sido}
+		order by gugunCode
+	</select>
+	
+	<select id="getDongList" parameterType="string" resultType="HouseDto">
+		select distinct dong dongName, dongCode
+		from baseaddress
+		where guguncode = #{gugun}
+		order by dongName
+	</select>
+	
+	<select id="getDongCode" parameterType="map" resultType="SimpleMessageDto">
+		select dongCode message
+		from baseaddress
+		where sido = #{sido} and gugun = #{gugun} and dong = #{dong}
+	</select>
+	
+	<select id="getAddress" parameterType="string" resultType="SimpleMessageDto">
+		select concat(sido,' ',gugun,' ',dong) message
+		from baseaddress
+		where dongcode = #{dongcode}
+	</select>
+</mapper>

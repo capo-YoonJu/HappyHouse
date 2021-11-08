@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.happyhouse.model.dao.UserDao">
+	<resultMap type="UserDto" id="UserResultMap">
+		<id column="id" property="id"/>
+		<result column="pw" property="pw"/>
+		<result column="name" property="name"/>
+		<result column="email" property="email"/>
+		<result column="address" property="address"/>
+	</resultMap>
+	
+	<resultMap type="UserDto" id="UserJoinFavoriteResultMap" extends="UserResultMap">
+		<collection property="favorites" resultMap="FavoriteResultMap"/>
+	</resultMap>
+	
+	<resultMap type="FavoriteDto" id="FavoriteResultMap">
+		<id column="userId" property="userId"/>
+		<id column="dongcode" property="dongcode"/>
+		<result column="sido" property="sido"/>
+		<result column="gugun" property="gugun"/>
+		<result column="dong" property="dong"/>
+	</resultMap>
+	
+	<sql id="BasicSelectUserSQL">
+		SELECT		id, pw, name, email, address
+		FROM 		userinfo
+	</sql>
+	
+	<sql id="BasicDeleteFavoriteSQL">
+		DELETE FROM favoriteInfo
+		WHERE		userId = #{id}
+	</sql>
+	
+	<insert id="insertUser" parameterType="UserDto">
+		INSERT INTO userinfo(id, pw, name, email, address)
+		VALUES		(#{id}, #{pw}, #{name}, #{email}, #{address})
+	</insert>
+	
+	<select id="selectUser" parameterType="map" resultMap="UserResultMap">
+		<include refid="BasicSelectUserSQL"/>
+		WHERE		id = #{id}
+		AND			pw = #{pw}
+	</select>
+	
+	<select id="selectUserInfo" parameterType="String" resultMap="UserResultMap">
+		<include refid="BasicSelectUserSQL"/>
+		WHERE		id = #{id}
+	</select>
+	
+	<update id="updateUser" parameterType="String">
+		UPDATE 		userinfo
+		SET			id = #{user.id}, pw = #{user.pw}, name = #{user.name}, email = #{user.email}, address = #{user.address}
+		WHERE		id = #{id}
+	</update>
+	
+	<delete id="deleteUser" parameterType="String">
+		DELETE FROM userinfo
+		WHERE		id = #{id}
+	</delete>
+	
+	<insert id="insertFavorite" parameterType="map">
+		INSERT INTO favoriteInfo(userId, dongcode, sido, gugun, dong)
+		VALUES		(#{id}, #{favorite.dongcode}, #{favorite.sido}, #{favorite.gugun}, #{favorite.dong})
+	</insert>
+	
+	<select id="selectFavorites" parameterType="String" resultMap="UserJoinFavoriteResultMap">
+		SELECT		u.id, u.pw, u.name, u.email, u.address,
+					f.userId, f.dongcode, f.sido, f.gugun, f.dong
+		FROM 		userinfo u
+		LEFT JOIN	favoriteInfo f
+		ON			(u.id = f.userId)
+		WHERE		u.id = #{id}
+	</select>
+	
+	<update id="updateFavoritesId" parameterType="map">
+		UPDATE 		favoriteInfo
+		SET			userId = #{user.id}
+		WHERE		userId = #{id}
+	</update>
+	
+	<delete id="deleteFavorite" parameterType="map">
+		<include refid="BasicDeleteFavoriteSQL"/>
+		AND			dongcode = #{dongcode}
+	</delete>
+	
+	<delete id="deleteFavoriteById" parameterType="String">
+		<include refid="BasicDeleteFavoriteSQL"/>
+	</delete>
+	
+</mapper>

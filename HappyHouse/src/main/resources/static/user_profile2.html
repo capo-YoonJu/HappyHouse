@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>HappyHouse - 회원 정보</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <!-- Favicons -->
+    <link href="assets/img/favicon.png" rel="icon">
+    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+        rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/vendor/bootstrap/css/bootstrap-lux.css" rel="stylesheet">
+    <link href="assets/vendor/icofont/icofont.min.css" rel="stylesheet">
+    <link href="assets/vendor/icomoon/style.css" rel="stylesheet">
+    <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="assets/vendor/animate.css/animate.min.css" rel="stylesheet">
+    <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+    <link href="assets/vendor/venobox/venobox.css" rel="stylesheet">
+    <link href="assets/vendor/owl.carousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+    <!-- Template Main CSS File -->
+    <link href="assets/css/style.css" rel="stylesheet">
+
+    <!-- =======================================================
+  * Template Name: MyBiz - v2.2.1
+  * Template URL: https://bootstrapmade.com/mybiz-free-business-bootstrap-theme/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <!-- ======= Top Bar ======= -->
+    <section id="topbar" class="d-none d-lg-block">
+        <div class="container">
+            <div class="user_maintainer bx-pull-right">
+                <div class="before_login">
+                	<!-- 수정여기 -->
+                	<a href="#signUpModal" class="user_join" data-toggle="modal" data-target="#signUpModal" >회원 가입</a>
+			    	<!-- Sign Up Modal 시작 -->
+			        <div class="modal fade" id="signUpModal">
+				        <div class="modal-dialog modal-md modal-dialog-centered">
+				            <div class="modal-content" >
+				        
+				            <!-- Modal Header -->
+				            <div class="modal-header">
+				                <h3 class="modal-title">HappyHouse와 함께하기</h3>
+				                <button class="close" data-dismiss="modal">&times;</button>
+				            </div>
+				
+				            <form id="signUpForm" method="post" action="" class="p-3 bg-white border" >
+				            
+				            <!-- Modal body -->
+				            <div class="modal-body">
+				                <div class="form-group">
+					                <div class="col-md-12 mb-3 mb-md-0">
+					                    <label class="font-weight-bold" for="signUpUserId">아이디</label>
+					                    <input type="text" id="signUpUserId" name="id" class="form-control" required >
+					                    <div class="idresult"></div>
+					                </div>
+				                </div>
+				                <div class="form-group">
+					                <div class="col-md-12 mb-3 mb-md-0">
+					                    <label class="font-weight-bold" for="signUpUserPw">비밀번호</label>
+					                    <input type="password" id="signUpUserPw" name="pw" class="form-control" placeholder="영문, 숫자 포함 5자리 이상 16자리 이하" required >
+					                    <div id="pwresult"></div>
+					                </div>
+				                </div>
+				                <div class="form-group">
+					                <div class="col-md-12 mb-3 mb-md-0">
+					                    <label class="font-weight-bold" for="signUpUserName">이름</label>
+					                    <input type="text" id="signUpUserName" name="name" class="form-control" placeholder="김싸피" required >
+					                </div>
+				                </div>
+				                <div class="form-group">
+					                <div class="col-md-12">
+					                    <label class="font-weight-bold" for="signUpUserTel">이메일</label>
+					                    <input type="email" id="signUpUserEmail" name="email" class="form-control" placeholder="kimssafy@ssafy.com" required >
+					                </div>
+				                </div>
+				                <div class="form-group">
+					                <div class="col-md-12">
+					                    <label class="font-weight-bold" for="signUpUserAddr">주소</label>
+					                    <input type="text" id="signUpUserAddr" name="address" class="form-control" placeholder="서울시 강남구 역삼동 멀티캠퍼스" required >
+					                </div>
+				                </div>
+				            </div>
+				
+				            <!-- Modal footer -->
+				            <div class="modal-footer">
+				                <button id="signUpBtn" class="btn btn-success text-white btn-block-md rounded-0" type="button" >가입</button>
+				                <button id="signUpCloseBtn" class="btn btn-outline-secondary rounded-0 py-1.5 px-2.5" data-dismiss="modal">닫기</button>
+				            </div>
+				
+				            </form>
+				
+				            </div>
+				        </div>
+			        </div>
+			        <!-- Sign Up Modal 종료 -->
+                    <a href="" class="user_login" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >Log In</a>
+                    <!-- Log In 드롭다운 시작 -->
+                    <ul class="dropdown-menu dropdown-menu-right dropdown-animation" aria-labelledby="header-top-drop-2">
+	                	<li>
+	                		<form id="loginForm" method="post" action="" class="col-md-12 mb-3 mb-md-0" >
+	                        	<div class="form-group">
+	                            	<div class="col-md-12 mb-3 mb-md-0">
+	                                    <label class="font-weight-bold" for="loginId">아이디</label>
+	                                    <input type="text" id="loginId" name="userId" class="form-control" >
+	                                </div>
+	                            </div>
+	                            <div class="form-group">
+	                            	<div class="col-md-12 mb-3 mb-md-0">
+	                                    <label class="font-weight-bold" for="loginPw">비밀번호</label>
+	                                    <input type="password" id="loginPw" name="userPassword" class="form-control" placeholder="영문, 숫자 포함 6자리 이상" >
+	                            	</div>
+	                            </div>
+	                            <div class="modal-footer">
+	                                <button id="loginBtn" class="btn btn-success text-white btn-block-sm rounded-0" type="button" >로그인</button>
+	                                <button class="btn btn-outline-primary rounded-0 py-1.5 px-2" type="button" data-toggle="modal" data-target="#findPWModal" >비밀번호 찾기</button>
+	                            </div>
+	                        </form>
+	                    </li>
+                    </ul>
+                    <!-- Log In 드롭다운 종료 -->
+                </div>
+                <div class="after_login">
+                	<span id="userSessionId"></span>
+                	<span>님 안녕하세요!</span>
+                    <a href="./user_profile.html" class="user_profile">회원정보</a>
+                    <a id="logoutBtn" href="./index.html" class="user_logout">로그아웃</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======= Header ======= -->
+    <header id="header" class="d-flex align-items-center">
+        <div class="container d-flex align-items-center">
+
+            <div class="logo mr-auto">
+                <h1 class="text-light"><a href="./index.html">Happy<span>House</span></a></h1>
+                <!-- Uncomment below if you prefer to use an image logo -->
+                <!-- <a href="index.html"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
+            </div>
+
+            <nav class="nav-menu d-none d-lg-block">
+                <ul>
+                    <li class="active"><a href="#header">Home</a></li>
+                    <li><a href="#">공지사항</a></li>
+                    <li><a href="#">오늘의 뉴스</a></li>
+                    <li><a href="#">관심지역 설정</a></li>
+                    <li><a href="#">관심지역 살펴보기</a></li>
+                </ul>
+            </nav><!-- .nav-menu -->
+
+        </div>
+    </header><!-- End Header -->
+    <div id="wrapper">
+    	<div id="body-content">
+		    <main id="main">
+		        <!-- <section class="container">
+		            <div id="box_title">
+		                <h2>회원정보 확인</h2>
+		            </div>
+		            <form class="box-border align-items-center">
+		                <div class="form-box">
+		                    <div class="form-group row rowItem">
+		                        <div class="col-md-2">
+		                            <label for="userId">아이디</label>
+		                        </div>
+		                        <div id="inputId" class="col-md-4"></div>
+		                    </div>
+		                    <div class="form-group row rowItem">
+		                        <div class="col-md-2">
+		                            <label for="userpw">비밀번호</label>
+		                        </div>
+		                        <div id="inputPw" class="col-md-4"></div>
+		                    </div>
+		                    <div class="form-group row rowItem">
+		                        <div class="col-md-2">
+		                            <label for="username">이름</label>
+		                        </div>
+		                        <div id="inputName" class="col-md-4"></div>
+		                    </div>
+		                    <div class="form-group row rowItem">
+		                        <div class="col-md-2">
+		                            <label for="useraddress">주소</label>
+		                        </div>
+		                        <div id="inputAddress" class="col-md-4"></div>
+		                    </div>
+		                    <div class="form-group row rowItem">
+		                        <div class="col-md-2">
+		                            <label for="useremail">이메일</label>
+		                        </div>
+		                        <div id="inputEmail" class="col-md-4"></div>
+		                    </div>
+		                </div>
+		                <div class="btn-center">
+		                    <div id="confirmBtn" class="btn btn-outline-primary margin-right">확인</div>
+		                    <div id="modifyBtn" class="btn btn-outline-secondary margin-right">수정</div>
+		                    <div id="withdrawBtn" class="btn btn-outline-secondary">계정 삭제</div>
+		                </div>
+		            </form>
+		        </section> -->
+		        
+		        <!-- 페이지 중간 회원 정보 관리 부분 -->
+		        <div class="site-section mt-5">
+		            <div class="container">
+		                <div class="row">
+		                
+			                <!-- 회원 이미지 부분 -->
+			                <div class="col-md-3 ml-3 mt-4 mb-5" data-aos="fade-up" data-aos-delay="100">
+			                    <img src="assets/img/user/person_1.jpg" alt="Image" class="img-fluid">
+			                    <div class="mt-3 text">
+			                    <p>
+			                         <a href="#" class="text-black p-2"><span class="icon-facebook"></span></a>
+			                         <a href="#" class="text-black p-2"><span class="icon-twitter"></span></a>
+			                         <a href="#" class="text-black p-2"><span class="icon-linkedin"></span></a>
+			                    </p>
+			                    </div>
+			                </div>
+			                <!-- 회원 이미지 부분 종료 -->
+			                 
+			                <!-- 회원 정보 부분 -->
+			                <div class="col-md-8 ml-auto" data-aos="fade-up" data-aos-delay="200">
+			                    <!-- 회원 이름 환영 부분 -->
+			                    <div class="site-section-title">
+			                    	<h2><span id="profileUserName"></span>님 안녕하세요!</h2>
+			                    </div>
+			                    
+			                    <div class="col-md-10">
+			                    	<form class="form-inline" id="userInfoForm" method="post" action="">
+		                    			<div class="form-group mr-auto">
+			                            	<div class="col-md-12 mb-3 mb-md-0">
+			                                    <label class="font-weight-bold mr-au" for="loginId">아이디</label>
+			                                    <hr align="left" style="width:40%;"/>
+					                            <input type="text" id="loginId" name="userId" class="form-control" >
+			                                </div>
+			                            </div>
+			                            <div class="form-group ml-auto">
+			                            	<div class="col-md-6 mb-3 mb-md-0">
+			                                    <label class="font-weight-bold" for="loginPw">비밀번호</label>
+			                                    <input type="password" id="loginPw" name="userPassword" class="form-control" placeholder="영문, 숫자 포함 6자리 이상" >
+			                            	</div>
+			                            </div>
+				                    </form>
+			                    </div> 
+			                    
+			                     
+			                    <!-- 회원 정보 수정 폼 부분 -->
+			                    <form id="userInfoForm" method="post" action="">
+			                    	<div class="col-md-12 mt-4">
+			                    		<div class="row" style="margin-bottom:0">
+			                    			<!-- 아이디 -->
+				                           	<div class="col-md mt-4">
+				                           		<div class="text">
+					                               	<h3 class="mb-2 font-weight-light text-black h4">아이디</h3>
+					                               	<hr align="left" style="width:20%"/>
+					                                <span class="d-block mb-3 text-white-opacity-05">
+					                                    <input type="text" id="profileUserId" name="userId" placeholder="" >
+					                                </span>
+					                                <div class="idresult"></div>
+				                               	</div>
+				                           	</div>
+			                          
+				                           	<!-- 비밀번호 -->
+				                           	<div class="col-md mt-4">
+				                           		<div class="text">
+					                                <h3 class="mb-2 font-weight-light text-black h4">비밀 번호</h3>
+					                                <hr align="left" style="width:20%"/>
+					                                <span class="d-block mb-3 text-white-opacity-05">
+					                                    <input type="password" id="profileUserPw" name="userPassword" >
+					                                </span>
+					                                <div class="pwresult"></div>
+				                               	</div>
+				                           	</div>
+			                           	</div>
+			                           
+			                       		<div class="row" style="margin-bottom:0">
+				                       		<!-- 이메일 -->
+				                           	<div class="col-md mt-4">
+				                           		<div class="text">
+					                                <h3 class="mb-2 font-weight-light text-black h4">이메일</h3>
+					                                <hr align="left" style="width:20%"/>
+					                                <span class="d-block mb-3 text-white-opacity-05">
+					                                    <input type="email" id="profileUserEmail" name="userTel" placeholder="" >
+					                                </span>
+				                               	</div>
+				                           	</div>
+			                           
+				                           	<!-- 주소 -->
+				                           	<div class="col-md mt-4">
+				                               	<div class="text">
+					                                <h3 class="mb-2 font-weight-light text-black h4">주소</h3>
+					                                <hr align="left" style="width:20%"/>
+					                                <span class="d-block mb-3 text-white-opacity-05">
+					                                    <input type="text" id="profileUserAddr" name="userAddress" placeholder="">
+					                                </span>
+				                               	</div>
+				                          	 </div>
+			                       		</div>
+			                           
+			                           	<!-- 관심 지역 -->
+			                       		<div class="row" style="margin-bottom:0">
+				                           	<div class="col-md mt-4">
+				                               <div class="text">
+				                                <h3 class="mb-2 font-weight-light text-black h4">관심 지역</h3>
+				                                <hr align="left" style="width:20%"/>
+				                                <span class="d-block mb-3 text-white-opacity-05">
+				                                    <!-- 관심 지역 리스트 -->
+				                                    <ul id="favListUl">
+				                                    <!-- <c:forEach items="${user.userFavList}" var="favorite" varStatus="status">
+				                                        <li id="favli-${status.index}">
+				                                            <span id="favInfo">${favorite.gu} ${favorite.dong}</span>
+				                                            <button id="favbtn-${status.index}" class="btn close deleteBtn" type="button" >&times;</button>
+				                                        </li>
+				                                    </c:forEach> -->
+				                                    </ul>
+				                                </span>
+				                               </div>
+				                           	</div>
+			                          	</div>
+			                          
+			                          	<!-- 회원 정보 수정 폼 버튼 -->
+			                          	<div class="mt-4">
+			                          		<button class="btn btn-primary text-white btn-block-lg rounded-0 py-1.5 px-4 mr-3" type="button" id="userUpdateBtn" >수정</button>
+			                          		<button class="btn btn-outline-danger rounded-0 py-1.5 px-4" type="submit" id="userDeleteBtn" >탈퇴</button>     
+			                          	</div>
+			                      	</div>
+			                     </form>
+			                     <!-- 회원 정보 수정 폼 부분 종료 -->
+			                 </div>
+		                </div>
+		            </div>
+		        </div>
+		        <!-- 페이지 중간 회원 정보 관리 부분 종료 -->
+		    </main><!-- End #main -->
+		</div>
+	    <!-- ======= Footer ======= -->
+	        <footer id="footer">
+	            <div class="container">
+	                <div class="copyright">
+	                    &copy; Copyright <strong><span>SSAFY</span></strong>. All Rights Reserved
+	                </div>
+	            </div>
+	    </footer><!-- End Footer -->
+    </div>
+
+    <!-- Vendor JS Files -->
+    <script src="assets/vendor/jquery/jquery.min.js"></script>
+    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/vendor/jquery.easing/jquery.easing.min.js"></script>
+    <script src="assets/vendor/php-email-form/validate.js"></script>
+    <script src="assets/vendor/jquery-sticky/jquery.sticky.js"></script>
+    <script src="assets/vendor/waypoints/jquery.waypoints.min.js"></script>
+    <script src="assets/vendor/counterup/counterup.min.js"></script>
+    <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+    <script src="assets/vendor/venobox/venobox.min.js"></script>
+    <script src="assets/vendor/owl.carousel/owl.carousel.min.js"></script>
+
+    <!— Template Main JS File —>
+    <script src="assets/js/profile.js"></script>
+    <script src="assets/js/join.js"></script>
+    <script src="assets/js/login.js"></script>
+</body>
+
+</html>

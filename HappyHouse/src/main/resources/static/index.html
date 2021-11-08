@@ -1,0 +1,326 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>HappyHouse - 메인화면</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+        rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/vendor/bootstrap/css/bootstrap-lux.css" rel="stylesheet">
+    <link href="assets/vendor/icofont/icofont.min.css" rel="stylesheet">
+    <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="assets/vendor/animate.css/animate.min.css" rel="stylesheet">
+    <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+    <link href="assets/vendor/venobox/venobox.css" rel="stylesheet">
+    <link href="assets/vendor/owl.carousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+    <!-- Template Main CSS File -->
+    <link href="assets/css/style.css" rel="stylesheet">
+    
+    <!-- =======================================================
+  * Template Name: MyBiz - v2.2.1
+  * Template URL: https://bootstrapmade.com/mybiz-free-business-bootstrap-theme/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <!-- ======= Top Bar ======= -->
+    <section id="topbar" class="d-none d-lg-block">
+        <div class="container">
+            <div class="user_maintainer bx-pull-right">
+                <div class="before_login">
+                	<a href="#signUpModal" class="user_join" data-toggle="modal" data-target="#signUpModal" >회원 가입</a>
+			    	<!-- Sign Up Modal 시작 -->
+			        <div class="modal fade" id="signUpModal">
+				        <div class="modal-dialog modal-md modal-dialog-centered">
+				            <div class="modal-content" >
+				        
+				            <!-- Modal Header -->
+				            <div class="modal-header">
+				                <h3 class="modal-title">HappyHouse와 함께하기</h3>
+				                <button class="close" data-dismiss="modal">&times;</button>
+				            </div>
+				
+				            <form id="signUpForm" method="post" action="" class="p-3 bg-white border" >
+				            
+				            <!-- Modal body -->
+				            <div class="modal-body">
+				                <div class="form-group">
+					                <div class="col-md-12 mb-3 mb-md-0">
+					                    <label class="font-weight-bold" for="signUpUserId">아이디</label>
+					                    <input type="text" id="signUpUserId" name="id" class="form-control" required >
+					                    <div class="idresult"></div>
+					                </div>
+				                </div>
+				                <div class="form-group">
+					                <div class="col-md-12 mb-3 mb-md-0">
+					                    <label class="font-weight-bold" for="signUpUserPw">비밀번호</label>
+					                    <input type="password" id="signUpUserPw" name="pw" class="form-control" placeholder="영문, 숫자 포함 5자리 이상 16자리 이하" required >
+					                    <div id="pwresult"></div>
+					                </div>
+				                </div>
+				                <div class="form-group">
+					                <div class="col-md-12 mb-3 mb-md-0">
+					                    <label class="font-weight-bold" for="signUpUserName">이름</label>
+					                    <input type="text" id="signUpUserName" name="name" class="form-control" placeholder="김싸피" required >
+					                </div>
+				                </div>
+				                <div class="form-group">
+					                <div class="col-md-12">
+					                    <label class="font-weight-bold" for="signUpUserTel">이메일</label>
+					                    <input type="email" id="signUpUserEmail" name="email" class="form-control" placeholder="kimssafy@ssafy.com" required >
+					                </div>
+				                </div>
+				                <div class="form-group">
+					                <div class="col-md-12">
+					                    <label class="font-weight-bold" for="signUpUserAddr">주소</label>
+					                    <input type="text" id="signUpUserAddr" name="address" class="form-control" placeholder="서울시 강남구 역삼동 멀티캠퍼스" required >
+					                </div>
+				                </div>
+				            </div>
+				
+				            <!-- Modal footer -->
+				            <div class="modal-footer">
+				                <button id="signUpBtn" class="btn btn-success text-white btn-block-md rounded-0" type="button" >가입</button>
+				                <button id="signUpCloseBtn" class="btn btn-outline-secondary rounded-0 py-1.5 px-2.5" data-dismiss="modal">닫기</button>
+				            </div>
+				
+				            </form>
+				
+				            </div>
+				        </div>
+			        </div>
+			        <!-- Sign Up Modal 종료 -->
+                    <a href="" class="user_login" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >Log In</a>
+                    <!-- Log In 드롭다운 시작 -->
+                    <ul class="dropdown-menu dropdown-menu-right dropdown-animation" aria-labelledby="header-top-drop-2">
+	                	<li>
+	                		<form id="loginForm" method="post" action="" class="col-md-12 mb-3 mb-md-0" >
+	                        	<div class="form-group">
+	                            	<div class="col-md-12 mb-3 mb-md-0">
+	                                    <label class="font-weight-bold" for="loginId">아이디</label>
+	                                    <input type="text" id="loginId" name="userId" class="form-control" >
+	                                </div>
+	                            </div>
+	                            <div class="form-group">
+	                            	<div class="col-md-12 mb-3 mb-md-0">
+	                                    <label class="font-weight-bold" for="loginPw">비밀번호</label>
+	                                    <input type="password" id="loginPw" name="userPassword" class="form-control" placeholder="영문, 숫자 포함 6자리 이상" >
+	                            	</div>
+	                            </div>
+	                            <div class="modal-footer">
+	                                <button id="loginBtn" class="btn btn-success text-white btn-block-sm rounded-0" type="button" >로그인</button>
+	                                <button class="btn btn-outline-primary rounded-0 py-1.5 px-2" type="button" data-toggle="modal" data-target="#findPWModal" >비밀번호 찾기</button>
+	                            </div>
+	                        </form>
+	                    </li>
+                    </ul>
+                    <!-- Log In 드롭다운 종료 -->
+                </div>
+                <div class="after_login">
+                	<span id="userSessionId"></span>
+                	<span>님 안녕하세요!</span>
+                    <a href="./user_profile.html" class="user_profile">회원정보</a>
+                    <a id="logoutBtn" href="" class="user_logout">로그아웃</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======= Header ======= -->
+    <header id="header" class="d-flex align-items-center">
+        <div class="container d-flex align-items-center">
+
+            <div class="logo mr-auto">
+                <h1 class="text-light"><a href="./index.html">Happy<span>House</span></a></h1>
+                <!-- Uncomment below if you prefer to use an image logo -->
+                <!-- <a href="index.html"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
+            </div>
+
+            <nav class="nav-menu d-none d-lg-block">
+                <ul>
+                    <li class="active"><a href="#header">Home</a></li>
+                    <li><a href="#">공지사항</a></li>
+                    <li><a href="#">오늘의 뉴스</a></li>
+                    <li><a href="#">관심지역 설정</a></li>
+                    <li><a href="#">관심지역 살펴보기</a></li>
+                </ul>
+            </nav><!-- .nav-menu -->
+        </div>
+    </header><!-- End Header -->
+
+    <div id="wrapper">
+    	<div id="body-content">
+	        <!-- ======= Hero Section ======= -->
+	        <section id="hero">
+	            <div class="hero-container">
+	                <div id="heroCarousel" class="carousel slide carousel-fade" data-ride="carousel">
+	                    <ol class="carousel-indicators" id="hero-carousel-indicators"></ol>
+	                    <div class="carousel-inner" role="listbox">
+	                        <!-- Slide 1 -->
+	                        <div class="carousel-item active" style="background-image: url(assets/img/slide/home1.jpeg);">
+	                            <div class="carousel-container">
+	                                <div class="carousel-content">
+	                                    <h2 class="animate__animated animate__fadeInDown">Welcome to <span>HappyHouse</span></h2>
+	                                    <p class="animate__animated animate__fadeInUp card-content">HappyHouse에서 원하는 집을 찾아보세요!</p>
+	                                </div>
+	                            </div>
+	                        </div>
+	                        <!-- Slide 2 -->
+	                        <div class="carousel-item" style="background-image: url(assets/img/slide/home2.jpeg);">
+	                            <div class="carousel-container">
+	                                <div class="carousel-content">
+	                                    <h2 class="animate__animated animate__fadeInDown">지역별로 엄선된 매물</h2>
+	                                    <p class="animate__animated animate__fadeInUp card-content">지역별 필터를 이용하여 원하는 매물을 찾으세요!</p>
+	                                </div>
+	                            </div>
+	                        </div>
+	                        <!-- Slide 3 -->
+	                        <div class="carousel-item" style="background-image: url(assets/img/slide/home3.jpeg);">
+	                            <div class="carousel-container">
+	                                <div class="carousel-content">
+	                                    <h2 class="animate__animated animate__fadeInDown">아파트, 주택에 대한 구체적인 정보</h2>
+	                                    <p class="animate__animated animate__adeInUp card-content">이미지와 함께 제공되는 상세한 매물 정보들을 얻어보세요!</p>
+	                                </div>
+	                            </div>
+	                        </div>
+	                    </div>
+	                    <a class="carousel-control-prev" href="#heroCarousel" role="button" data-slide="prev">
+	                        <span class="carousel-control-prev-icon ri-arrow-left-line" aria-hidden="true"></span>
+	                        <span class="sr-only">Previous</span>
+	                    </a>
+	                    <a class="carousel-control-next" href="#heroCarousel" role="button" data-slide="next">
+	                        <span class="carousel-control-next-icon ri-arrow-right-line" aria-hidden="true"></span>
+	                        <span class="sr-only">Next</span>
+	                    </a>
+	                </div>
+	            </div>
+	        </section><!-- End Hero -->
+	    
+	        <!-- <section id="Select">
+	            <div class="sorting-filters text-center mb-20 d-flex justify-content-center">
+					<form class="form-inline" id="frm">
+						<input type="hidden" id="code"  name="code" value="code"/>
+						<div class="form-group md-1">
+							<select class="form-control" name="city" id="city">
+								<option value="all">도/광역시</option>
+							</select>
+						</div>
+						<div class="form-group md-1">
+							<select class="form-control" name="gu" id="gu">
+								<option value="all">구/군</option>
+							</select>
+						</div>
+						<div class="form-group md-1">
+							<select class="form-control" name="dong" id="dong">
+								<option value="all">동</option>
+							</select>
+						</div>
+						<div class="form-group md-2" style="margin-right: 20px">
+							<input type="text" class="form-control" name="aptName" id="aptName" placeholder="아파트명(포함)">
+						</div>
+						<div class="form-group md-1">
+							<button type="button" class="btn btn-primary btn-sm" name="searchBtn" id="searchBtn">검색</button>
+						</div>
+					</form>
+				</div>
+	        </section>
+	
+	        <div class="row justify-content-center">
+	            <div class="col-lg-4">
+	            	<div class="scroller" id="aptList"></div>
+	            </div>
+	            <div id="map" class="col-lg-6"></div>
+	        </div> -->
+	        <div class="row justify-content-center">
+	        	<div class="col-md-10">
+	        		<div class="card border-light text-white bg-dark mt-5">
+	        			<div class="card-header bg-info">
+	        				<section id="Select">
+					            <div class="sorting-filters text-center mb-20 d-flex justify-content-center">
+									<form class="form-inline" id="frm">
+										<!-- <input type="hidden" id="code"  name="code" value="code"/> -->
+										<div class="form-group md-1 ml-1 mr-1">
+											<select class="form-control" name="city" id="city">
+												<option value="all">도/광역시</option>
+											</select>
+										</div>
+										<div class="form-group md-1 ml-1 mr-1">
+											<select class="form-control" name="gu" id="gu">
+												<option value="all">구/군</option>
+											</select>
+										</div>
+										<div class="form-group md-1 ml-1 mr-1">
+											<select class="form-control" name="dong" id="dong">
+												<option value="all">동</option>
+											</select>
+										</div>
+										<div class="form-group md-2 ml-1 mr-5" style="margin-right: 20px">
+											<input type="text" class="form-control" name="aptName" id="aptName" placeholder="아파트명(포함)">
+										</div>
+										<!-- <div class="form-group md-1"> -->
+										<div class="btn-group">
+											<button type="button" class="btn btn-primary btn-sm" name="searchBtn" id="searchBtn">검색</button>
+											<button type="button" class="btn btn-outline-primary btn-sm" name="favoriteBtn" id="favoriteBtn">관심지역 추가</button>
+										</div>
+									</form>
+								</div>
+					        </section>
+	        			</div>
+	 					<div class="card-body">
+	 						<div class="row mt-2 mb-2 ml-2 mr-2">
+					            <div class="col-sm-4">
+					            	<div class="scroller" id="aptList"></div>
+					            </div>
+					            <div id="map" class="col-sm-8"></div>
+			       			</div>
+	 					</div>
+	        		</div>
+	        	</div>
+	        </div>
+        </div>
+        <!-- ======= Footer ======= -->
+        <footer id="footer">
+            <div class="container">
+                <div class="copyright">
+                    &copy; Copyright <strong><span>SSAFY</span></strong>. All Rights Reserved
+                </div>
+            </div>
+        </footer><!-- End Footer -->
+    </div>
+
+    <a href="#" class="back-to-top"><i class="icofont-simple-up"></i></a>
+
+    <!-- Vendor JS Files -->
+    <script src="assets/vendor/jquery/jquery.min.js"></script>
+    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/vendor/jquery.easing/jquery.easing.min.js"></script>
+    <script src="assets/vendor/php-email-form/validate.js"></script>
+    <script src="assets/vendor/jquery-sticky/jquery.sticky.js"></script>
+    <script src="assets/vendor/waypoints/jquery.waypoints.min.js"></script>
+    <script src="assets/vendor/counterup/counterup.min.js"></script>
+    <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+    <script src="assets/vendor/venobox/venobox.min.js"></script>
+    <script src="assets/vendor/owl.carousel/owl.carousel.min.js"></script>
+    <!-- Kakao Map -->
+	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ENTER YOUR APPKEY HERE&libraries=services"></script>
+    <!-- Template Main JS File -->
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/join.js"></script>
+    <script src="assets/js/login.js"></script>
+    <script src="assets/js/favorite.js"></script>
+</body>
+
+</html>
