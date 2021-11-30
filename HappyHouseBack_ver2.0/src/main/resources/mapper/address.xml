@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.happyhouse.model.dao.AddressDAO">
+
+	<select id="getSido" resultType="AddressCode">
+		select left(sidoCode,2) sidoCode, sidoName
+		from sidocode
+		order by sidoCode
+	</select>
+	
+	<select id="getGugunInSido" parameterType="string" resultType="AddressCode">
+		select left(gugunCode,5) gugunCode, gugunName
+		from guguncode
+		where left(gugunCode,2) = #{sido}
+		order by gugunCode
+	</select>
+	
+	<select id="getGugun" resultType="AddressCode">
+		select left(gugunCode,5) gugunCode, gugunName
+		from guguncode
+		where left(gugunCode,2) = 11
+		order by gugunCode
+	</select>
+	
+	<select id="getDongInGugun" parameterType="string" resultType="AddressCode">
+		select dongcode, dong
+		from dongcode
+		where left(dongcode, 5) = #{gugun}
+		order by dongcode
+	</select>
+	
+	<select id="getSerialNoInGugun" parameterType="string" resultType="SDot">
+		select serialNo, gugunName, dongName, left(dongcode, 5) gugunCode, dongcode dongCode
+		from serialinfo s
+		left join dongcode d
+		on (s.dongName = d.dong and s.gugunName = d.gugun)
+		where left(dongcode, 5) = #{dongCode}
+	</select>
+	
+	<select id="getHDong" parameterType="string" resultType="AddressCode">
+		select hdongCode, dongCode, gugunName, dongName
+		from hdongcode h
+		join dongcode d
+		on (h.dongName = d.dong)
+		where d.dongCode = #{dongCode}
+	</select>
+
+</mapper>

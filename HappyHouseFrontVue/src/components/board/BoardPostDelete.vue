@@ -10,24 +10,25 @@
 </template>
 
 <script>
-import http from "@/util/http-common.js";
+import { removePost } from "@/api/board.js";
 
 export default {
     created() {
-        http
-        .delete(`/board/${this.$route.params.no}`)
-        .then(({data}) => {
-            let msg = "삭제 처리시 문제가 발생했습니다.";
-            if (data) {
-                msg = "삭제가 완료되었습니다.";
+        removePost(
+            `${this.$route.params.no}`,
+            ({data}) => {
+                let msg = "삭제 처리 시 문제가 발생했습니다.";
+                if (data) {
+                    msg = "삭제가 완료되었습니다.";
+                }
+                alert(msg);
+                this.$router.push({name: "BoardList"});
+            },
+            (error) => {
+                alert("삭제 처리 시 문제가 발생했습니다.");
+                console.log(error);
             }
-            alert(msg);
-            this.$router.push({name: "BoardList"});
-        })
-        .catch(({error}) => {
-            console.log("delete problem");
-            console.log(error.response.status);
-        });
+        );
     },
 }
 </script>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.happyhouse.model.dao.PostDAO">
+	<resultMap type="Post" id="PostResultMap">
+		<id column="no" property="no"/>
+		<result column="type" property="type"/>
+		<result column="writer" property="writer"/>
+		<result column="title" property="title"/>
+		<result column="content" property="content"/>
+		<result column="regDate" property="regDate"/>
+	</resultMap>
+	
+	<resultMap type="Post" id="PostHashtagJoinResultMap" extends="PostResultMap">
+		<collection property="tags" resultMap="hashtagResultMap"/>
+	</resultMap>
+	
+	<resultMap type="String" id="hashtagResultMap">
+		<result column="tag"/>
+	</resultMap>
+	
+	<sql id="basicPostSelectSQL">
+		SELECT p.no, p.type, p.writer, p.title, p.content, h.tag, DATE_FORMAT(p.regDate, '%Y-%m-%d %r') as regDate
+		FROM post_hashtag_mapping m
+		RIGHT JOIN post p ON p.no = m.post_no
+		LEFT JOIN hashtag h ON m.hashtag_no = h.no
+	</sql>
+	
+	<insert id="insertHashtag" parameterType="Hashtag">
+		INSERT INTO hashtag(tag)
+		VALUES(#{tag})
+		<selectKey keyProperty="no" resultType="int">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+	
+	<insert id="insertPost" parameterType="Post">
+		INSERT INTO post(type, writer, title, content)
+		VALUES(#{type}, #{writer}, #{title}, #{content})
+		<selectKey keyProperty="no" resultType="int">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+	
+	<insert id="insertPostHashtagMapping" parameterType="map">
+		INSERT INTO post_hashtag_mapping(post_no, hashtag_no)
+		VALUES(#{post_no}, #{hashtag_no})
+	</insert>
+	
+	<select id="selectHashtag" parameterType="string" resultType="int">
+		SELECT no
+		FROM hashtag
+		WHERE tag = #{tag}
+	</select>
+	
+	<select id="selectPosts" resultMap="PostHashtagJoinResultMap">
+		<include refid="basicPostSelectSQL"/>
+	</select>
+	
+	<select id="selectPostByNo" parameterType="int" resultMap="PostHashtagJoinResultMap">
+		<include refid="basicPostSelectSQL"/>
+		WHERE p.no = #{no};
+	</select>
+	
+	<select id="selectPostsByHashtag" resultMap="PostHashtagJoinResultMap">
+		<include refid="basicPostSelectSQL"/>
+		WHERE p.no IN 
+		(
+			SELECT post_no
+			FROM post_hashtag_mapping m
+			JOIN hashtag h ON m.hashtag_no = h.no
+			WHERE h.tag in
+			<foreach collection="array" item="tag" open="(" separator="," close=")">
+				#{tag}
+			</foreach>
+		)
+	</select>
+	
+	<update id="updatePost" parameterType="Post">
+		UPDATE post
+		SET type = #{type}, writer = #{writer}, title = #{title}, content = #{content}
+		WHERE no = #{no};
+	</update>
+	
+	<delete id="deletePostHashtagMapping" parameterType="int">
+		DELETE FROM post_hashtag_mapping
+		WHERE post_no = #{postNo}
+	</delete>
+	
+	<delete id="deletePost" parameterType="int">
+		DELETE FROM post
+		WHERE no = #{no}
+	</delete>
+	
+</mapper>

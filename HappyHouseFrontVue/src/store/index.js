@@ -3,44 +3,63 @@ import Vuex from "vuex";
 
 Vue.use(Vuex);
 
+import userStore from "@/store/modules/userStore.js";
+import chartStore from "@/store/modules/chartStore.js";
+
 export default new Vuex.Store({
   state: {
+    posts: [],
     postComments: [],
+    tags: [],
   },
   getters: {
+    allPosts(state) {
+      return state.posts;
+    },
     allPostComments(state) {
       return state.postComments;
+    },
+    allTags(state) {
+      return state.tags;
     }
   },
   mutations: {
+    SET_POSTS(state, postList) {
+      state.posts = postList;
+    },
     SET_COMMENTS(state, commentList) {
       state.postComments = commentList;
     },
-    CREATE_COMMENT(state, commentItem) {
-      state.postComments.push(commentItem);
+    SET_TAGS(state, tag) {
+      state.tags.push(tag);
     },
-    DELETE_COMMENT(state, commentItem) {
-      const idx = state.postComments.map(postComment => postComment.no).indexOf(commentItem.no);
-      state.postComments.splice(idx, 1);
+    REMOVE_TAG(state, tag) {
+      const idx = state.tags.map(tagName => tagName).indexOf(tag);
+      state.tags.splice(idx, 1);
     },
-    MODIFY_COMMENT(state, commentItem) {
-      const idx = state.postComments.map(postComment => postComment.no).indexOf(commentItem.no);
-      if (idx !== -1) state.postComments.splice(idx, 1, commentItem);
+    REMOVE_ALL_TAGS(state) {
+      state.tags = [];
     },
   },
   actions: {
+    setPosts({ commit }, postList) {
+      commit('SET_POSTS', postList);
+    },
     setComments({ commit }, commentList) {
       commit('SET_COMMENTS', commentList);
     },
-    createComment({ commit }, commentItem) {
-      commit('CREATE_COMMENT', commentItem);
+    setTags({ commit }, tag) {
+      commit('SET_TAGS', tag);
     },
-    deleteComment({ commit }, commentItem) {
-      commit('DELETE_COMMENT', commentItem);
+    removeTag({ commit }, tag) {
+      commit('REMOVE_TAG', tag);
     },
-    modifyComment({ commit }, commentItem) {
-      commit('MODIFY_COMMENT', commentItem);
-    },
+    removeAllTags({ commit }) {
+      commit('REMOVE_ALL_TAGS');
+    }
   },
-  modules: {},
+  modules: {
+    userStore,
+    chartStore,
+  },
 });

@@ -26,9 +26,9 @@
 </template>
 
 <script>
-import http from "@/util/http-common.js";
 import BoardPostCommentRegist from "@/components/board/BoardPostCommentRegist.vue";
 import BoardPostCommentItem from "@/components/board/BoardPostCommentItem.vue";
+import { getCommentsByPostNo } from "@/api/board.js";
 import { mapGetters } from 'vuex';
 
 export default {
@@ -37,33 +37,24 @@ export default {
         BoardPostCommentRegist,
         BoardPostCommentItem,
     },
-    // data() {
-    //     return {
-    //         postComments: []
-    //     };
-    // },
     created() {
-        http.get(`/board/${this.$route.params.no}`, {
-            params: {comments: ""}
-        })
-        .then(({ data }) => {
-            this.$store.dispatch('setComments', data);
-            this.postComments = data;
-        });
+        getCommentsByPostNo(
+            `${this.$route.params.no}`,
+            (response) => {
+                this.$store.dispatch('setComments', response.data);
+            },
+            (error) => {
+                console.log(error);
+            }
+        );
     },
     computed: {
         ...mapGetters(['allPostComments']),
-        // postComments() {
-        //     return this.$store.state.postComments;
-        // }
     },
-    methods: {
-        
-    }
 }
 </script>
 
-<style>
+<style scoped>
 .comments-none {
     text-align: center;
 }

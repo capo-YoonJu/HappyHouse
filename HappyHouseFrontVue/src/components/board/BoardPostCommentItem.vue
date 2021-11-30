@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import http from "@/util/http-common.js";
+import { getCommentsByPostNo, updateComment, removeComment } from "@/api/board.js";
 
 export default {
     name: "BoardPostCommentItem",
@@ -66,63 +66,58 @@ export default {
             }
         },
         modifyComment() {
-            http
-            .put(`/board/${this.no}/comments`, {
-                no: this.no,
-                post_no: this.post_no,
-                title: this.title,
-                content: this.content,
-                writer: this.writer,
-                regDate: this.regDate
-            })
-            .then(({data}) => {
-                let msg = "수정 처리시 문제가 발생했습니다.";
-                if (data) {
-                    msg = "수정이 완료되었습니다.";
+            updateComment(
+                `${this.no}`,
+                {
+                    no: this.no,
+                    post_no: this.post_no,
+                    title: this.title,
+                    content: this.content,
+                    writer: this.writer,
+                    regDate: this.regDate
+                },
+                (response) => {
+                    let msg = "댓글 수정 처리시 문제가 발생했습니다.";
+                    if (response.data!=null) {
+                        msg = "댓글이 수정되었습니다.";
+                        this.setComment();
+                    }
+                    alert(msg);
+                },
+                (error) => {
+                    alert("댓글 수정 처리 시 문제가 발생했습니다.");
+                    console.log(error);
                 }
-                alert(msg);
-                this.modifyStoreComment();
-            })
-            .catch(({error}) => {
-                console.log(error);
-            });
-        },
-        modifyStoreComment() {
-            this.$store.dispatch('modifyComment', {
-                no: this.no,
-                post_no: this.post_no,
-                title: this.title,
-                content: this.content,
-                writer: this.writer,
-                regDate: this.regDate
-            });
+            );
         },
         deleteComment() {
-            http
-            .delete(`/board/${this.no}/comments`)
-            .then(({data}) => {
-                let msg = "삭제 처리시 문제가 발생했습니다.";
-                if (data) {
-                    msg = "삭제가 완료되었습니다.";
+            removeComment(
+                `${this.no}`,
+                ({data}) => {
+                    let msg = "댓글 삭제 처리 시 문제가 발생했습니다.";
+                    if (data) {
+                        msg = "댓글이 삭제되었습니다.";
+                        this.setComment();
+                    }
+                    alert(msg);
+                },
+                (error) => {
+                    alert("댓글 삭제 처리 시 문제가 발생했습니다.");
+                    console.log(error);
                 }
-                alert(msg);
-                this.deleteStoreComment();
-            })
-            .catch(({error}) => {
-                console.log(error);
-            });
+            );
         },
-        deleteStoreComment() {
-            const commentItem = {
-                no: this.no,
-                post_no: this.post_no,
-                title: this.title,
-                content: this.content,
-                writer: this.writer,
-                regDate: this.regDate
-            };
-            this.$store.dispatch('deleteComment', commentItem);
-        }
+        setComment() {
+            getCommentsByPostNo(
+                `${this.$route.params.no}`,
+                (response) => {
+                    this.$store.dispatch('setComments', response.data);
+                },
+                (error) => {
+                    console.log(error);
+                }
+            );
+        },
     }
 }
 </script>

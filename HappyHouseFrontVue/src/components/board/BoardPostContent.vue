@@ -1,14 +1,19 @@
 <template>
     <div class="post-component mx-auto">
         <b-card class="main-post bg-light my-3">
-            <b-media>
+            <b-media class="p-2">
                 <div class="post-header w-100 mb-4">
                     <small>
-                        <router-link :to="{name: 'Home'}" class="tag-router router-link" v-for="(tag, index) in post.tags" :key="index">
+                        <span
+                            class="tag-router" 
+                            v-for="(tag, index) in post.tags" 
+                            :key="index"
+                            @click="setTags(tag)"
+                        >
                             #{{ tag }}
-                        </router-link>
+                        </span>
                     </small>
-                    <h3 class="mt-1 mb-4">{{ post.title }}</h3>
+                    <h3 class="mt-2 mb-4">{{ post.title }}</h3>
                     <div class="text-muted">
                         <span>{{ post.type }}</span> | 
                         <span>{{ post.writer }}</span> | 
@@ -50,8 +55,8 @@
 </template>
 
 <script>
-import http from "@/util/http-common.js";
 import BoardPostCommentList from "@/components/board/BoardPostCommentList.vue";
+import { getPostByNo } from "@/api/board.js";
 
 export default {
     name: "BoardPostContent",
@@ -64,13 +69,23 @@ export default {
         };
     },
     created() {
-        http
-        .get(`/board/${this.$route.params.no}`)
-        .then(({ data }) => {
-            this.post = data;
-            // this.post.content.replace("\r\n","<br>");
-        });
+        getPostByNo(
+            `${this.$route.params.no}`,
+            ({ data }) => {
+                this.post = data;
+            },
+            (error) => {
+                console.log(error);
+            }
+        );
     },
+    methods: {
+        setTags(tag) {
+            this.$store.dispatch('removeAllTags');
+            this.$store.dispatch('setTags', tag);
+            this.$router.push({name: "BoardList"});
+        }
+    }
 }
 </script>
 
@@ -79,7 +94,20 @@ export default {
     width: 800px;
 }
 .post-writer-buttons {
-    /* position: absolute; */
     right: 0;
+}
+.card {
+    border-radius: 1.5em;
+    color: #2c3e50;
+    box-shadow: 0 0 20px 0 Gainsboro;
+    max-width: 800px;
+}
+.tag-router {
+    color: SeaGreen;
+    cursor: pointer;
+    font-weight: bold;
+}
+.tag-router:hover {
+    color: MediumSeaGreen;
 }
 </style>

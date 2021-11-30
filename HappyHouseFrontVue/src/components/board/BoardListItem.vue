@@ -1,28 +1,34 @@
 <template>
-    <div class="flex-column align-items-start mx-auto my-2" style="width: 800px">
+    <div class="board-list-item flex-column align-items-start mb-3">
         <router-link :to="{name: 'BoardPostContent', params: {no: no}}" class="router-link">
-            <b-card no-body class="overflow-hidden" style="max-width: 800px;">
+            <b-card no-body class="overflow-hidden">
                 <b-row no-gutters>
                     <b-col md="3">
                         <b-card-img src="https://picsum.photos/400/400/?image=20" alt="Image" class="rounded-0"></b-card-img>
                     </b-col>
                     <b-col md="9">
                         <b-card-body>
-                            <div class="d-flex w-100 justify-content-between">
-                                <div>
-                                    <b-badge variant="primary" class="p-1 mb-3 mr-3 ">{{ type }}</b-badge>
-                                    <h4 class="card-title d-inline">{{ title }}</h4>
+                            <div class="d-flex w-100 justify-content-between mb-2">
+                                <div class="card-header">
+                                    <span class="type-badge">
+                                        <b-icon icon="volume-up-fill" aria-hidden="true"></b-icon>
+                                        {{ type }}
+                                    </span>
+                                    <h4 class="card-title d-inline ml-3">{{ title }}</h4>
                                 </div>
                                 <small>{{ regDate }}</small>
                             </div>
                             <b-card-text>
                                 {{ content }}
                             </b-card-text>
-                            <div class="float-bottom w-100 mb-0">
-                                <b-badge pill variant="secondary" class="tag-badge mx-1" v-for="(tag, index) in tags" :key="index">
-                                    <router-link :to="{name: 'Home'}" class="tag-router router-link">
-                                        {{ tag }}
-                                    </router-link>
+                            <div class="mt-5 align-self-end">
+                                <b-badge  
+                                    class="mx-1" 
+                                    v-for="(tag, index) in tags" 
+                                    :key="index"
+                                    @click.prevent="setTags(tag)"
+                                >
+                                    #{{ tag }}
                                 </b-badge>
                             </div>
                         </b-card-body>
@@ -34,6 +40,9 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+import { getPostsByTags } from "@/api/board.js";
+
 export default {
     name: "BoardListItem",
     props: {
@@ -45,15 +54,64 @@ export default {
         regDate: String,
         tags: Array,
     },
+    computed: {
+        ...mapGetters(['allTags']),
+    },
+    methods: {
+        setTags(tag) {
+            if (this.allTags.includes(tag)) return;
+            this.$store.dispatch('setTags', tag);
+            this.tagSearch();
+        },
+        tagSearch() {
+            getPostsByTags(
+                { tag: this.allTags },
+                (response) => {
+                    this.$store.dispatch('setPosts', response.data);
+                },
+                (error) => {
+                    console.log(error);
+                }
+            );
+        },
+    }
 }
 </script>
 
 <style scoped>
+.board-list-item {
+    text-align: left;
+    width: 800px;
+}
 .card:hover {
-    background-color: rgb(233, 233, 233);
+    box-shadow: 0 0 3px 0 Gainsboro;
 }
 .card {
+    border-radius: 1em;
     color: #2c3e50;
+    box-shadow: 0 0 10px 0 Gainsboro;
+    max-width: 800px;
+}
+.card-img {
+    height: 100%;
+}
+.card-header {
+    display:table;
+    background-color: white;
+    border: none;
+}
+.type-badge {
+    display:table-cell;
+    vertical-align:middle;
+    border-radius: 0.5em;
+    font-size: smaller;
+    color: rgb(60, 118, 167);
+}
+.badge {
+    background-color: darkseagreen;
+}
+.badge:hover {
+    background-color: seagreen;
 }
 .tag-div {
     position: absolute;
@@ -61,9 +119,6 @@ export default {
 }
 .tag-router, .tag-router:hover {
     color: seashell;
-}
-.tag-badge:hover {
-    background-color: darkgray;
 }
 .router-link:hover {
     text-decoration: none;

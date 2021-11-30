@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import http from "@/util/http-common.js";
+import { getCommentsByPostNo, writeComment } from "@/api/board.js";
 
 export default {
     name: "BoardPostCommentRegist",
@@ -46,23 +46,37 @@ export default {
             else this.registPostComment();
         },
         registPostComment() {
-            http
-            .post(`/board/${this.$route.params.no}/comments`, {
-                title: this.title,
-                content: this.content,
-                writer: this.writer,
-            })
-            .then(({ data }) => {
-                let msg = "등록 처리 시 문제가 발생했습니다.";
-                if (data!=null) {
-                    msg = "등록이 완료되었습니다.";
+            writeComment(
+                `${this.$route.params.no}`,
+                {
+                    title: this.title,
+                    content: this.content,
+                    writer: this.writer,
+                },
+                (response) => {
+                    let msg = "등록 처리 시 문제가 발생했습니다.";
+                    if (response.data!=null) {
+                        msg = "댓글 등록이 완료되었습니다.";
+                        this.setComment();
+                    }
+                    alert(msg);
+                },
+                (error) => {
+                    console.log(error);
                 }
-                alert(msg);
-                this.createComment(data);
-            });
+            );
         },
-        createComment(data) {
-            this.$store.dispatch('createComment', data);
+        setComment() {
+            getCommentsByPostNo(
+                `${this.$route.params.no}`,
+                (response) => {
+                    this.$store.dispatch('setComments', response.data);
+                },
+                (error) => {
+                    console.log(error);
+                }
+            );
+
             this.content = '';
         },
     },

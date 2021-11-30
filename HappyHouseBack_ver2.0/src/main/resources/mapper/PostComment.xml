@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.happyhouse.model.dao.PostCommentDAO">
+	
+	<resultMap type="PostComment" id="PostCommentResultMap">
+		<id column="no" property="no"/>
+		<result column="post_no" property="post_no"/>
+		<result column="writer" property="writer"/>
+		<result column="title" property="title"/>
+		<result column="content" property="content"/>
+		<result column="regDate" property="regDate"/>
+	</resultMap>
+	
+	<sql id="basicPostCommentSelectSQL">
+		SELECT no, post_no, writer, title, content, DATE_FORMAT(regDate, '%Y-%m-%d %r') as regDate
+		FROM post_comment
+	</sql>
+	
+	<insert id="insertPostComment" parameterType="PostComment">
+		INSERT INTO post_comment(post_no, writer, title, content)
+		VALUES(#{post_no}, #{writer}, #{title}, #{content})
+		<selectKey keyProperty="no" resultType="int">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+	
+	<select id="selectPostCommentsByPostNo" parameterType="int" resultMap="PostCommentResultMap">
+		<include refid="basicPostCommentSelectSQL"/>
+		WHERE post_no = #{post_no}
+	</select>
+	
+	<select id="selectPostCommentByNo" parameterType="int" resultMap="PostCommentResultMap">
+		<include refid="basicPostCommentSelectSQL"/>
+		WHERE no = #{no}
+	</select>
+	
+	<update id="updatePostComment" parameterType="PostComment">
+		UPDATE post_comment
+		SET writer = #{writer}, title = #{title}, content = #{content}
+		WHERE no = #{no};
+	</update>
+	
+	<delete id="deletePostComment" parameterType="int">
+		DELETE FROM post_comment
+		WHERE no = #{no}
+	</delete>
+</mapper>

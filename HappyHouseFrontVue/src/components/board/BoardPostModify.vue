@@ -2,13 +2,10 @@
     <div class="post-component mx-auto">
         <b-card bg-variant="light" class="border-0">
             <div class="mb-5">
-                <h3>질문 수정하기</h3>
+                <h3>게시글 수정하기</h3>
             </div>
-            <b-form-group>
-                <b-form-group
-                    label-cols-sm="3"
-                    label-align-sm="right"
-                >
+            <b-form-group class="mx-auto px-3">
+                <b-form-group>
                     <b-form-select 
                         v-model="type" 
                         :options="typeOptions" 
@@ -16,19 +13,9 @@
                         class="col-md-3" 
                         style="width: 150px;"
                     ></b-form-select>
-                    <!-- <b-form-input 
-                        id="modify-post-title"
-                        placeholder="제목을 입력하세요."
-                        size="sm"
-                        class="col-md-3"
-                        style="width: 150px;"
-                    ></b-form-input> -->
                 </b-form-group>
 
-                <b-form-group
-                    label-cols-sm="3"
-                    label-align-sm="right"
-                >
+                <b-form-group>
                     <b-form-input 
                         id="modify-post-title"
                         v-model="title"
@@ -37,10 +24,7 @@
                     ></b-form-input>
                 </b-form-group>
 
-                <b-form-group
-                    label-cols-sm="3"
-                    label-align-sm="right"
-                >
+                <b-form-group>
                     <b-form-textarea
                         id="textarea-no-resize"
                         v-model="content"
@@ -51,11 +35,7 @@
                     ></b-form-textarea>
                 </b-form-group>
 
-                <b-form-group
-                    label-for="modify-post-tags-input"
-                    label-cols-sm="3"
-                    label-align-sm="right"
-                >
+                <b-form-group label-for="modify-post-tags-input">
                     <b-form-tags
                         input-id="modify-post-tags-input"
                         v-model="tags"
@@ -66,9 +46,7 @@
                     ></b-form-tags>
                 </b-form-group>
 
-                <b-form-group
-                    class="float-right mt-4 mx-3"
-                >
+                <b-form-group class="float-right mt-4 mx-3">
                     <b-button 
                         squared
                         size="sm" 
@@ -90,7 +68,7 @@
 </template>
 
 <script>
-import http from "@/util/http-common.js";
+import { getPostByNo, updatePost } from "@/api/board.js";
 
 export default {
     name: "BoardPostModify",
@@ -112,17 +90,21 @@ export default {
         };
     },
     created() {
-        http
-        .get(`/board/${this.$route.params.no}`)
-        .then(({ data }) => {
-            this.no = data.no;
-            this.type = data.type;
-            this.title = data.title;
-            this.content = data.content;
-            this.writer = data.writer;
-            this.regDate = data.regDate;
-            this.tags = data.tags;
-        });
+        getPostByNo(
+            `${this.$route.params.no}`,
+            ({ data }) => {
+                this.no = data.no;
+                this.type = data.type;
+                this.title = data.title;
+                this.content = data.content;
+                this.writer = data.writer;
+                this.regDate = data.regDate;
+                this.tags = data.tags;
+            },
+            (error) => {
+                console.log(error);
+            }
+        );
     },
     methods: {
         tagValidator(tag) {
@@ -140,24 +122,30 @@ export default {
             else this.modifyArticle();
         },
         modifyArticle() {
-            http
-            .put(`/board/${this.no}`, {
-                no: this.no,
-                type: this.type,
-                title: this.title,
-                content: this.content,
-                writer: this.writer,
-                regDate: this.regDate,
-                tags: this.tags
-            })
-            .then(({ data }) => {
-                let msg = "수정 처리 시 문제가 발생했습니다.";
-                if (data) {
-                    msg = "수정이 완료되었습니다.";
+            updatePost(
+                `${this.$route.params.no}`,
+                {
+                    no: this.no,
+                    type: this.type,
+                    title: this.title,
+                    content: this.content,
+                    writer: this.writer,
+                    regDate: this.regDate,
+                    tags: this.tags
+                },
+                ({ data }) => {
+                    let msg = "수정 처리 시 문제가 발생했습니다.";
+                    if (data) {
+                        msg = "수정이 완료되었습니다.";
+                    }
+                    alert(msg);
+                    this.moveBoardList();
+                },
+                (error) => {
+                    alert("수정 처리 시 문제가 발생했습니다.");
+                    console.log(error);
                 }
-                alert(msg);
-                this.moveBoardList();
-            });
+            );
         },
         moveBoardList() {
             this.$router.push({name: "BoardList"});
@@ -168,6 +156,12 @@ export default {
 
 <style scoped>
 .post-component {
-    width: 800px;
+    width: 600px;
+}
+.card {
+    border-radius: 1.5em;
+    color: #2c3e50;
+    box-shadow: 0 0 20px 0 Gainsboro;
+    max-width: 800px;
 }
 </style>

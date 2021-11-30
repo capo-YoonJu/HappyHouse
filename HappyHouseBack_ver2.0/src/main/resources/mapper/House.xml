@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.happyhouse.model.dao.HouseDAO">
+	<!-- Director의 resultMap -->
+ 	<resultMap type="com.ssafy.happyhouse.model.dto.House" id="HouseResultMap">
+ 		<id column="CITY" property="sido"/>
+ 		<id column="GUGUN" property="gugun"/>
+ 		<id column="DONG" property="dong"/>
+ 		<result column="APTNAME" property="aptName"/>
+ 		<result column="DEALAMOUNT" property="dealAmount"/>
+ 		<result column="DEALYEAR" property="dealYear"/>
+ 		<result column="DEALMONTH" property="dealMonth"/>
+ 		<result column="DEALDAY" property="dealDay"/>
+ 		<result column="BUILDYEAR" property="buildYear"/>
+ 		<result column="JIBUN" property="jibun"/>
+ 		<result column="AREA" property="area"/>
+ 		<result column="TYPE" property="type"/>
+ 		<result column="LAT" property="lat"/>
+ 		<result column="LNG" property="lng"/>
+ 	</resultMap>
+	
+	<select id="searchAll" parameterType="map" resultMap="HouseResultMap">
+		SELECT DISTINCT CITY, GUGUN, DONG, APTNAME, DEALAMOUNT, DEALYEAR, DEALMONTH, DEALDAY, BUILDYEAR, JIBUN, AREA, TYPE, LAT, LNG
+		FROM SEARCHDEAL
+		WHERE 
+		<choose>
+			<when test="dong != null and apt == null">
+				DONG IN (select v from correctiondong where k LIKE CONCAT('%', #{dong}, '%'))
+			</when>
+			
+			<when test="dong == null and apt != null">
+				APTNAME LIKE CONCAT('%', #{apt}, '%')
+			</when>
+			
+			<otherwise>
+				DONG IN (select v from correctiondong where k LIKE CONCAT('%', #{dong}, '%')) AND APTNAME LIKE CONCAT('%', #{apt}, '%')
+			</otherwise>
+		</choose>
+		ORDER BY APTNAME, DEALAMOUNT ASC
+	</select>
+	
+	<update id="rankDong" parameterType="com.ssafy.happyhouse.model.dto.House">
+	UPDATE RANKDONG SET COUNT = COUNT + 1 WHERE DONG IN (SELECT v FROM correctiondong WHERE k LIKE CONCAT('%', #{dong}, '%'))
+	</update>
+	
+</mapper>

@@ -1,15 +1,13 @@
 <template>
     <div class="post-component mx-auto">
         <b-card bg-variant="light" class="border-0">
-            <div class="mb-5">
-                <h3>질문 등록하기</h3>
-                <p>자유롭게 물어보세요!</p>
+            <div class="mb-5 mt-3 ml-3">
+                <h3>게시글 등록하기</h3>
+                <p>자유롭게 물어보세요! <b-icon icon="emoji-laughing" aria-hidden="true"></b-icon></p>
+                <hr>
             </div>
-            <b-form-group>
-                <b-form-group
-                    label-cols-sm="3"
-                    label-align-sm="right"
-                >
+            <b-form-group class="mx-auto px-3">
+                <b-form-group>
                     <b-form-select 
                         v-model="type" 
                         :options="typeOptions" 
@@ -17,19 +15,9 @@
                         class="col-md-3" 
                         style="width: 150px;"
                     ></b-form-select>
-                    <!-- <b-form-input 
-                        id="modify-post-title"
-                        placeholder="제목을 입력하세요."
-                        size="sm"
-                        class="col-md-3"
-                        style="width: 150px;"
-                    ></b-form-input> -->
                 </b-form-group>
 
-                <b-form-group
-                    label-cols-sm="3"
-                    label-align-sm="right"
-                >
+                <b-form-group>
                     <b-form-input 
                         id="regist-post-title"
                         v-model="title"
@@ -38,10 +26,7 @@
                     ></b-form-input>
                 </b-form-group>
 
-                <b-form-group
-                    label-cols-sm="3"
-                    label-align-sm="right"
-                >
+                <b-form-group>
                     <b-form-textarea
                         id="textarea-no-resize"
                         v-model="content"
@@ -52,12 +37,9 @@
                     ></b-form-textarea>
                 </b-form-group>
 
-                <b-form-group
-                    label-for="regist-post-tags-input"
-                    label-cols-sm="3"
-                    label-align-sm="right"
-                >
+                <b-form-group label-for="regist-post-tags-input">
                     <b-form-tags
+                        tag-variant="info"
                         input-id="regist-post-tags-input"
                         v-model="tags"
                         separator=" ,;"
@@ -67,9 +49,7 @@
                     ></b-form-tags>
                 </b-form-group>
 
-                <b-form-group
-                    class="float-right mt-4 mx-3"
-                >
+                <b-form-group class="float-right mt-4 mx-3">
                     <b-button 
                         squared
                         size="sm" 
@@ -91,7 +71,7 @@
 </template>
 
 <script>
-import http from "@/util/http-common.js";
+import { writePost } from "@/api/board.js";
 
 export default {
     name: "BoardPostRegist",
@@ -114,7 +94,7 @@ export default {
     },
     methods: {
         tagValidator(tag) {
-            return tag.length >= 2 && tag.length < 6
+            return tag.length >= 2 && tag.length <= 10
         },
         checkValue() {
             let err = true;
@@ -127,24 +107,28 @@ export default {
             if (!err) alert(msg);
             else this.registPost();
         },
-
         registPost() {
-            http
-            .post("/board", {
-                type: this.type,
-                title: this.title,
-                content: this.content,
-                writer: this.writer,
-                tags: this.tags,
-            })
-            .then(({ data }) => {
-                let msg = "등록 처리 시 문제가 발생했습니다.";
-                if (data) {
-                    msg = "등록이 완료되었습니다.";
+            writePost(
+                {
+                    type: this.type,
+                    title: this.title,
+                    content: this.content,
+                    writer: this.writer,
+                    tags: this.tags,
+                },
+                ({ data }) => {
+                    let msg = "등록 처리 시 문제가 발생했습니다.";
+                    if (data) {
+                        msg = "등록이 완료되었습니다.";
+                    }
+                    alert(msg);
+                    this.moveBoardList();
+                },
+                (error) => {
+                    alert("등록 처리 시 문제가 발생했습니다.");
+                    console.log(error);
                 }
-                alert(msg);
-                this.moveBoardList();
-            });
+            );
         },
         moveBoardList() {
             this.$router.push({name: "BoardList"});
@@ -153,8 +137,14 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .post-component {
-    width: 800px;
+    width: 600px;
+}
+.card {
+    border-radius: 1.5em;
+    color: #2c3e50;
+    box-shadow: 0 0 20px 0 Gainsboro;
+    max-width: 800px;
 }
 </style>
